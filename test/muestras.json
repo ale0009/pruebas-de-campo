@@ -1,0 +1,13 @@
+{
+  "_origen": "Ejemplos del cuadro comparativo de técnicas de prueba (clase de Pruebas de Software, 2023), anonimizados. Las reglas de los campos de la herramienta son supuestos de ejemplo.",
+  "edad_clase": { "descripcion": "edad entre 18 y 60 (ejemplo de partición de equivalencia del cuadro)", "min": 18, "max": 60, "mensajes": { "menor": "No puede acceder, su edad es menor a la requerida", "mayor": "No puede acceder, su edad es mayor a la requerida" } },
+  "articulos_clase": { "descripcion": "comprar un mínimo de 1 artículo y un máximo x (ejemplo de valores límite del cuadro; x no está definido)", "min": 1, "max": null },
+  "presets": [
+    { "texto": "edad entera entre 18 y 65, obligatoria", "tipo": "entero", "total2": 7 },
+    { "texto": "correo electrónico, obligatorio", "tipo": "correo", "total2": 10 },
+    { "texto": "cédula colombiana de 6 a 10 dígitos, obligatoria", "tipo": "cedula", "total2": 7 },
+    { "texto": "fecha de la cita entre 2026-12-01 y 2026-12-31, obligatoria", "tipo": "fecha", "total2": 7 },
+    { "texto": "nombre de usuario, texto de 3 a 20 caracteres, obligatorio", "tipo": "texto", "total2": 6 },
+    { "texto": "tipo de documento: CC, CE, TI, PA", "tipo": "select", "total2": 6 }
+  ]
+}

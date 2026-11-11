@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cómo se hizo · ¿Cuántas pruebas necesita este campo?</title>
+  <meta name="description" content="El trabajo de clase, la partición de equivalencia, el análisis de valores límite de 2 y 3 valores y la tabla de decisión según ISTQB, la comparación entre pruebas exhaustivas y mínimas, las limitaciones y la fe de erratas.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bangers&family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../css/estilo.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F9F9F7'/%3E%3Cpath d='M3 18H29' stroke='%230A090A' stroke-width='3'/%3E%3Crect x='10' y='12' width='12' height='12' fill='%23438FB8' stroke='%230A090A' stroke-width='2'/%3E%3Ccircle cx='7' cy='18' r='3.5' fill='%23CB433E'/%3E%3Ccircle cx='25' cy='18' r='3.5' fill='%23CB433E'/%3E%3C/svg%3E">
+  <script type="module" src="../js/proceso.js"></script>
+</head>
+<body>
+  <a class="saltar" href="#problema">Saltar al contenido</a>
+  <header class="cabecera">
+    <span class="kanji" aria-hidden="true">境界</span>
+    <div class="titulo">
+      <p class="antetitulo">Cómo se hizo</p>
+      <h1>¿Cuántas pruebas necesita este campo?</h1>
+    </div>
+    <nav class="nav">
+      <a class="boton-linea" href="../">Volver a la herramienta</a>
+      <button type="button" class="boton-linea" id="tema" aria-label="Cambiar tema">Tema: auto</button>
+    </nav>
+  </header>
+
+  <main class="articulo">
+    <nav class="indice vineta" aria-label="Contenido">
+      <ol>
+        <li><a href="#problema">El problema</a></li>
+        <li><a href="#clase">El trabajo de clase</a></li>
+        <li><a href="#metodo">Método ISTQB</a></li>
+        <li><a href="#exhaustivo">Exhaustivas frente a mínimas</a></li>
+        <li><a href="#diseno">Diseño</a></li>
+        <li><a href="#limites">Limitaciones</a></li>
+        <li><a href="#erratas">Fe de erratas</a></li>
+        <li><a href="#fuentes">Fuentes</a></li>
+      </ol>
+    </nav>
+
+    <section id="problema" class="bloque">
+      <h2>1 · El problema</h2>
+      <p>Un campo «edad, entero entre 18 y 65» parece fácil de probar. Pero si el sistema guarda la edad en un entero de 32 bits, hay <strong>4.294.967.296</strong> valores posibles. Probarlos todos, a mil pruebas automáticas por segundo, tomaría <strong>49,7 días</strong>, y ni así se habrían probado «abc», «41.5» o el campo vacío (calculado aquí).</p>
+      <p>El segundo principio de las pruebas de software lo dice así: <strong>las pruebas exhaustivas no son posibles</strong>. La salida no es probar al azar, sino elegir pocas entradas que representen a todas las demás. Para eso existen dos técnicas de caja negra: la <strong>partición de equivalencia</strong> y el <strong>análisis de valores límite</strong>. Con ellas, la edad necesita <strong>7 pruebas</strong>.</p>
+      <p class="nota-fuente">Caja negra: se diseñan las pruebas a partir de la especificación (lo que el campo debe aceptar), sin mirar el código.</p>
+    </section>
+
+    <section id="clase" class="bloque">
+      <h2>2 · El trabajo de clase</h2>
+      <p>En la asignatura <strong>Pruebas de Software</strong> (Universidad ECCI, 2023) el curso armó un <strong>cuadro comparativo de técnicas de prueba</strong>: cada equipo investigó una técnica (objetivos, ventajas, desventajas, aplicaciones, ejemplos y referencias). Al equipo de Mario le tocó la <strong>tabla de decisión</strong>; otros equipos trabajaron la partición de equivalencia y el análisis de valores límite. En la misma asignatura hubo pósteres sobre los principios de las pruebas y la planificación, y un caso de negocio con plan de pruebas para una plataforma de historias clínicas de mascotas.</p>
+      <div class="dos-col">
+        <div class="vineta">
+          <h3>Lo que tenía el cuadro</h3>
+          <ul>
+            <li>Partición de equivalencia, con un ejemplo: acceso solo para personas de <strong>18 a 60 años</strong>, con un mensaje distinto para menores y para mayores.</li>
+            <li>Valores límite, con un ejemplo: comprar «un mínimo de 1 artículo y un máximo x».</li>
+            <li>Tabla de decisión, con dos ejemplos: el salario de un empleado y la validación de un inicio de sesión (usuario existente, usuario inactivo, contraseña incorrecta).</li>
+          </ul>
+        </div>
+        <div class="vineta">
+          <h3>Lo que le faltaba</h3>
+          <ul>
+            <li>Ninguna fila <strong>aplicaba</strong> la técnica: describía qué es, pero no producía los casos.</li>
+            <li>No había conteo: ¿cuántas pruebas salen de cada técnica y cuántas se ahorran frente a probarlo todo?</li>
+            <li>Las técnicas se presentaban por separado; en la práctica se combinan.</li>
+          </ul>
+          <p>La herramienta hace esas tres cosas para cualquier campo, y su botón «Caso de clase» carga el ejemplo de 18 a 60 años.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="metodo" class="bloque">
+      <h2>3 · Método (ISTQB CTFL v4.0, sección 4.2)</h2>
+      <div class="dos-col">
+        <div>
+          <h3>Partición de equivalencia (4.2.1)</h3>
+          <p>Se dividen las entradas en <strong>clases</strong> que el sistema debería tratar igual. Si un valor de la clase falla, se espera que todos fallen; por eso basta con uno. Hay clases válidas (se aceptan) e inválidas (se rechazan). Cobertura: cada clase con al menos un caso.</p>
+          <p>Las clases inválidas se prueban <strong>de una en una</strong>: si un caso mezcla dos errores, el primero puede tapar al segundo.</p>
+          <h3>Valores límite (4.2.2)</h3>
+          <p>Solo sirve para clases <strong>ordenadas</strong> (números, longitudes, fechas). Los errores se concentran en los bordes: un <code>&lt;</code> donde iba <code>&lt;=</code>.</p>
+          <ul>
+            <li><strong>2 valores</strong>: el límite y su vecino de la clase de al lado. Para 18–65: 17, 18, 65, 66.</li>
+            <li><strong>3 valores</strong>: el límite y sus dos vecinos. Para 18–65: 17, 18, 19, 64, 65, 66. Detecta además un <code>==</code> donde iba <code>&lt;=</code>.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Cómo se combinan aquí</h3>
+          <p class="formula">casos = valores límite ∪ un representante por cada clase sin orden</p>
+          <p>Los valores límite ya caen dentro de las clases ordenadas (17 en «menor que 18», 18 en «de 18 a 65»), así que esas clases no necesitan un caso extra. Las clases sin orden («abc», «41.5», vacío, «1.234.567») suman uno cada una. Si una entrada sirve para dos razones (por ejemplo, 0 caracteres es a la vez un límite y «vacío»), se cuenta una sola vez.</p>
+          <h3>El resultado esperado sale de un oráculo</h3>
+          <p>Cada caso se valida con una función independiente (<code>validar()</code>) que implementa la regla. Las pruebas automáticas comprueban, para todos los tipos y los dos modos, que el resultado esperado de cada caso coincide con ese oráculo y que cada clase queda cubierta.</p>
+        </div>
+      </div>
+      <figure class="vineta figura">
+        <h3>Edad de 18 a 65: análisis de 2 valores frente a 3 valores</h3>
+        <div id="g-bva2"></div>
+        <div id="g-bva3"></div>
+        <figcaption>Arriba, 2 valores (4 puntos); abajo, 3 valores (6 puntos). Escala esquemática: los límites se separan aunque estén a 1 de distancia. Azul: se acepta; rojo: se rechaza.</figcaption>
+      </figure>
+      <h3>Tabla de decisión (4.2.3): el ejemplo del equipo, aplicado</h3>
+      <p>El cuadro de clase mencionaba el inicio de sesión con usuario existente, usuario inactivo y contraseña incorrecta. Con 3 condiciones de sí o no, la tabla completa tiene 2³ = 8 reglas. Pero si el usuario no existe, las otras dos condiciones ya no importan, y si está inactivo, la contraseña tampoco: la tabla <strong>colapsada</strong> queda en 4 reglas (calculado aquí).</p>
+      <div class="tabla-scroll">
+        <table class="tabla tabla-dec">
+          <caption>Inicio de sesión: tabla de decisión colapsada («–» = da igual).</caption>
+          <thead><tr><th scope="col">Condición</th><th scope="col" class="num">R1</th><th scope="col" class="num">R2</th><th scope="col" class="num">R3</th><th scope="col" class="num">R4</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">¿El usuario existe?</th><td class="dc d-si">S</td><td class="dc d-si">S</td><td class="dc d-si">S</td><td class="dc d-no">N</td></tr>
+            <tr><th scope="row">¿Está activo?</th><td class="dc d-si">S</td><td class="dc d-si">S</td><td class="dc d-no">N</td><td class="dc d-ind">–</td></tr>
+            <tr><th scope="row">¿Contraseña correcta?</th><td class="dc d-si">S</td><td class="dc d-no">N</td><td class="dc d-ind">–</td><td class="dc d-ind">–</td></tr>
+            <tr class="d-acc"><th scope="row">Acción</th><td class="a-ok">Entrar</td><td class="a-no">Contraseña incorrecta</td><td class="a-no">Usuario inactivo</td><td class="a-no">Usuario no existe</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>En la herramienta, la sección 4 hace lo mismo con 2 o 3 campos de un formulario. Si cada campo se valida por separado, la tabla de 2<sup>n</sup> reglas colapsa en n + 1, y el número de pruebas del formulario pasa del producto de todas las combinaciones (7 × 10 × 6 = 420 para edad, correo y tipo de documento) a <strong>19</strong>: los casos válidos se combinan entre sí y cada inválido va solo (calculado aquí).</p>
+    </section>
+
+    <section id="exhaustivo" class="bloque">
+      <h2>4 · Pruebas exhaustivas frente a mínimas</h2>
+      <p>Para cada campo de ejemplo, cuántas entradas habría que probar para cubrirlo todo y cuántas eligen las técnicas. Todas las cifras de esta sección están <strong>calculadas aquí</strong>, con el supuesto indicado en cada fila.</p>
+      <figure class="vineta figura">
+        <h3>Entradas posibles, en órdenes de magnitud (dígitos)</h3>
+        <div class="g-caja" id="g-exh"></div>
+        <figcaption>Cada barra es el número de cifras de la cantidad de entradas posibles (escala logarítmica). La del correo no cabe: llega a 505 cifras. Al lado, en rojo, las pruebas mínimas.</figcaption>
+      </figure>
+      <div class="tabla-scroll">
+        <table class="tabla">
+          <caption>Exhaustivas frente a mínimas (BVA de 2 valores). Tiempo: a 1.000 pruebas automáticas por segundo.</caption>
+          <thead><tr><th scope="col">Campo</th><th scope="col">Entradas posibles</th><th scope="col">Tiempo</th><th scope="col">Mínimas</th><th scope="col">Supuesto</th></tr></thead>
+          <tbody id="t-exh"></tbody>
+        </table>
+      </div>
+      <div class="vineta cifras">
+        <h3>Tres lecturas</h3>
+        <ul>
+          <li><strong>Edad:</strong> 7 pruebas en lugar de 4.294.967.296, unas 614 millones de veces menos. Y las 7 incluyen «abc», «41.5» y el vacío, que la prueba «exhaustiva» de enteros ni siquiera contempla.</li>
+          <li><strong>Texto y correo:</strong> el número de entradas posibles tiene 42 y 505 cifras. Aquí no hay discusión: solo las técnicas hacen la prueba posible.</li>
+          <li><strong>Select:</strong> la excepción. La interfaz deja elegir 5 cosas (4 opciones o nada) y las técnicas piden 6, una más que «todo»: el valor fuera de la lista. No se puede elegir en pantalla, pero sí enviar desde la consola del navegador o la API, y es justo el que el servidor debe rechazar.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="diseno" class="bloque">
+      <h2>5 · Decisiones de diseño</h2>
+      <ol class="decisiones">
+        <li><strong>Se describe en una frase.</strong> «Cédula de 6 a 10 dígitos» se escribe como se dice. Un intérprete sencillo saca el tipo, el nombre, el rango y si es obligatorio, y los muestra en «Lo que entendí» para corregirlos. Así la herramienta se prueba en 10 segundos, sin formulario previo.</li>
+        <li><strong>La respuesta es un número.</strong> «7 pruebas» en letra de cómic, y al lado lo que costaría probarlo todo. Es la pregunta del título.</li>
+        <li><strong>La recta numérica esquemática.</strong> Una recta a escala real no sirve: 17 y 18 quedarían pegados y 19–64 ocuparía casi todo. Aquí cada clase es una banda (azul válida, roja rayada inválida, para no depender solo del color) y los límites se separan siempre lo mismo.</li>
+        <li><strong>Cada caso dice por qué.</strong> La tabla sigue la especificación de caso de prueba de IEEE 829: identificador, entrada, resultado esperado; y añade la clase y la técnica que lo justifican.</li>
+        <li><strong>Sale listo para usar.</strong> CSV para una hoja de cálculo o un gestor de pruebas, y Gherkin (Dado/Cuando/Entonces o Given/When/Then) como esquema de escenario con su tabla de ejemplos, para Cucumber o Behave.</li>
+        <li><strong>El enlace guarda el campo.</strong> La descripción viaja en la dirección (<code>?campo=…</code>), así que se puede compartir un caso concreto.</li>
+      </ol>
+      <div class="dos-col">
+        <div class="vineta">
+          <h3>Paleta</h3>
+          <div class="paleta">
+            <span style="--c:#F9F9F7">Papel<br><code>#F9F9F7</code></span>
+            <span class="osc" style="--c:#0A090A;--sobre:#F9F9F7">Tinta<br><code>#0A090A</code></span>
+            <span style="--c:#CB433E;--sobre:#FFFFFF">Rojo: se rechaza<br><code>#CB433E</code></span>
+            <span style="--c:#438FB8">Cian: se acepta<br><code>#438FB8</code></span>
+            <span style="--c:#E8B44A">Ámbar: calculado aquí<br><code>#E8B44A</code></span>
+            <span class="osc" style="--c:#141C33;--sobre:#F2ECE0">Noche (oscuro)<br><code>#141C33</code></span>
+          </div>
+        </div>
+        <div class="vineta">
+          <h3>Versiones</h3>
+          <div class="boceto">
+            <figure>
+              <svg class="grafica" viewBox="0 0 260 120" role="img" aria-label="Boceto 1: un formulario largo con una lista de casos debajo">
+                <g fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="120" height="16"/><rect x="134" y="6" width="120" height="16"/><rect x="6" y="28" width="120" height="16"/><rect x="134" y="28" width="120" height="16"/><rect x="6" y="54" width="248" height="60"/></g>
+                <g stroke="currentColor" stroke-width="1.5"><line x1="6" y1="70" x2="254" y2="70"/><line x1="6" y1="86" x2="254" y2="86"/><line x1="6" y1="100" x2="254" y2="100"/></g>
+              </svg>
+              <figcaption>Versión 1: formulario de seis controles y lista. Correcta, pero lenta de probar y sin respuesta visible.</figcaption>
+            </figure>
+            <figure>
+              <svg class="grafica" viewBox="0 0 260 120" role="img" aria-label="Boceto 2: una frase arriba, un número grande al lado y una recta con bandas">
+                <rect x="6" y="6" width="160" height="18" fill="none" stroke="currentColor" stroke-width="2"/>
+                <text x="200" y="40" font-size="40" fill="#CB433E" font-family="Bangers, sans-serif">7</text>
+                <rect x="6" y="64" width="70" height="20" fill="#CB433E" opacity="0.5" stroke="currentColor" stroke-width="2"/>
+                <rect x="76" y="64" width="110" height="20" fill="#438FB8" opacity="0.5" stroke="currentColor" stroke-width="2"/>
+                <rect x="186" y="64" width="68" height="20" fill="#CB433E" opacity="0.5" stroke="currentColor" stroke-width="2"/>
+                <line x1="6" y1="96" x2="254" y2="96" stroke="currentColor" stroke-width="2"/>
+                <g stroke="currentColor" stroke-width="1.5"><circle cx="64" cy="96" r="5" fill="#CB433E"/><circle cx="88" cy="96" r="5" fill="#438FB8"/><circle cx="174" cy="96" r="5" fill="#438FB8"/><circle cx="198" cy="96" r="5" fill="#CB433E"/></g>
+              </svg>
+              <figcaption>Versión 2 (la elegida): una frase, el número y la recta con las clases.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="limites" class="bloque">
+      <h2>6 · Limitaciones</h2>
+      <ul>
+        <li><strong>La regla la pones tú.</strong> La herramienta no sabe si la edad debe ir de 18 a 65 ni si tu formulario acepta cédulas con puntos: genera los casos para la regla descrita. Si la regla está mal, los casos también.</li>
+        <li><strong>Supone que la partición es correcta.</strong> Si el código trata distinto a los mayores de 60 sin que la especificación lo diga, una clase «de 18 a 65» no lo detecta. Es el límite de toda técnica de caja negra.</li>
+        <li><strong>Intérprete sencillo.</strong> Entiende frases cortas como las de los ejemplos; con frases complejas puede equivocarse, y por eso muestra «Lo que entendí» para corregirlo.</li>
+        <li><strong>Cédula:</strong> «de 6 a 10 dígitos» es el ejemplo del enunciado, no una regla oficial; los puntos de miles se tratan como inválidos, aunque muchos sistemas los quitan antes de validar.</li>
+        <li><strong>Correo:</strong> se usa la regla del estándar HTML (la de <code>input type="email"</code>), que acepta <code>ana@ejemplo</code> sin punto en el dominio y no admite caracteres internacionales sin convertir. Comprobar que el correo existe exige enviar un mensaje.</li>
+        <li><strong>Tabla de decisión simplificada:</strong> supone que cada campo se valida por separado. Si hay reglas entre campos (fecha de fin posterior a la de inicio), hacen falta condiciones adicionales.</li>
+        <li>Las cifras exhaustivas dependen del supuesto de cada fila (enteros de 32 bits, 95 caracteres ASCII imprimibles, fechas del año 1 al 9999); cambian con otro supuesto, pero el orden de magnitud no cambia la conclusión.</li>
+      </ul>
+    </section>
+
+    <section id="erratas" class="bloque">
+      <h2>7 · Fe de erratas de los trabajos de clase</h2>
+      <div class="vineta errata">
+        <h3>Cuadro comparativo de técnicas · fila «Tablas de decisión» (equipo de Mario)</h3>
+        <ul>
+          <li>Objetivo: «validar que el programa funciona correctamente para <strong>todos los casos posibles</strong>». Contradice el principio de que las pruebas exhaustivas no son posibles. Lo correcto: cubrir todas las <strong>combinaciones de las condiciones</strong> que se modelan, no todas las entradas.</li>
+          <li>Ventaja: «permite encontrar errores de <strong>valores límite</strong>». Eso es del análisis de valores límite: la tabla de decisión no elige valores, combina condiciones.</li>
+          <li>Referencia de Myers: «2011, 2.ª ed.» con cuatro autores. La edición de 2011 es la <strong>3.ª</strong> (Myers, Sandler y Badgett); la 2.ª es de 2004. El enlace citado apunta, de hecho, a la 3.ª.</li>
+          <li>Referencia «Testing Computer Software, Google Books, 2023»: Google Books es la plataforma, no el autor, y 2023 es la fecha de consulta. Autores: Kaner, Falk y Nguyen; 2.ª edición, 1999.</li>
+        </ul>
+      </div>
+      <div class="vineta errata">
+        <h3>Cuadro comparativo · otras filas</h3>
+        <ul>
+          <li>Valores límite: el ejemplo «un mínimo de 1 artículo y un <strong>máximo x</strong>» no se puede probar: sin un número no hay límite superior. Con, por ejemplo, 10, los casos son 0, 1, 10 y 11.</li>
+          <li>Partición de equivalencia: entre sus ventajas aparece «ayuda a identificar defectos en los valores límite», que es la ventaja del análisis de valores límite. Y el título dice «Participaciones de equivalencia» en lugar de «Particiones».</li>
+          <li>El ejemplo de 18 a 60 años sí estaba bien planteado: dos mensajes distintos para menores y mayores confirman que son <strong>dos clases inválidas</strong> y no una.</li>
+        </ul>
+      </div>
+      <div class="vineta errata">
+        <h3>Póster «Principios esenciales»</h3>
+        <ul>
+          <li>Enumera 8 principios; ISTQB define <strong>7</strong>. El octavo es una cita sobre el error humano, no un principio.</li>
+          <li>En el póster de prueba de flujo de datos, la sección de beneficios repite el texto de «pruebas tempranas» del otro póster.</li>
+          <li>Errata en el título: «Sotware».</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="fuentes" class="bloque">
+      <h2>8 · Fuentes</h2>
+      <ol class="fuentes">
+        <li>Trabajos de clase de Mario Puerta y equipo, Pruebas de Software, Universidad ECCI, 2023: cuadro comparativo de técnicas de prueba (fila de tablas de decisión), pósteres de principios y de planificación de pruebas, y caso de negocio con plan de pruebas. Material propio, no publicado aquí.</li>
+        <li>ISTQB. <a href="https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/"><em>Certified Tester Foundation Level Syllabus v4.0</em></a>, 2023. Sección 1.3 (principios) y 4.2 (partición de equivalencia, análisis de valores límite de 2 y 3 valores, tablas de decisión).</li>
+        <li>G. J. Myers, C. Sandler y T. Badgett. <em>The Art of Software Testing</em>, 3.ª ed. Wiley, 2011. Cap. 4: partición de equivalencia y análisis de valores límite.</li>
+        <li>C. Kaner, J. Falk y H. Q. Nguyen. <em>Testing Computer Software</em>, 2.ª ed. Wiley, 1999.</li>
+        <li>R. S. Pressman. <em>Ingeniería del software: un enfoque práctico</em>, 7.ª ed. McGraw-Hill, 2010. Pruebas de caja negra.</li>
+        <li>IEEE. <em>IEEE 829-2008, Standard for Software and System Test Documentation</em> (especificación de casos de prueba). Reemplazado por ISO/IEC/IEEE 29119-3.</li>
+        <li>WHATWG. <a href="https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address"><em>HTML Living Standard</em>, «valid e-mail address»</a>.</li>
+        <li>J. Klensin. <a href="https://www.rfc-editor.org/rfc/rfc5321#section-4.5.3.1">RFC 5321, <em>Simple Mail Transfer Protocol</em></a>, 2008, sección 4.5.3.1 (64 caracteres para la parte local, 256 para la ruta, es decir, 254 para la dirección).</li>
+        <li>Cucumber. <a href="https://cucumber.io/docs/gherkin/reference/">Referencia de Gherkin</a>: esquemas de escenario, ejemplos e idiomas (<code># language: es</code>).</li>
+      </ol>
+    </section>
+
+    <a class="volver" href="../">Contar las pruebas de mi campo →</a>
+  </main>
+
+  <footer class="pie">
+    <p>Proceso de la herramienta «¿Cuántas pruebas necesita este campo?». Código con licencia MIT.</p>
+    <p class="creditos"><a href="https://github.com/ale0009" target="_blank" rel="noopener">Mario Puerta «ale0009»</a> × <a href="https://www.linkedin.com/in/davidalexanderrinconcorredorkuronoma/" target="_blank" rel="noopener">David Rincón «Kuronoma»</a> <a href="#">Portafolio</a></p>
+  </footer>
+</body>
+</html>

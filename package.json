@@ -1,0 +1,11 @@
+{
+  "name": "pruebas-de-campo",
+  "version": "1.0.0",
+  "description": "¿Cuántas pruebas necesita este campo? Describe un campo de formulario y obtén los casos de prueba mínimos con partición de equivalencia y análisis de valores límite (ISTQB). Página estática sin build.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "author": "Mario Alejandro Puerta Alarcón",
+  "scripts": { "test": "node --test" },
+  "engines": { "node": ">=20" }
+}

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>¿Cuántas pruebas necesita este campo?</title>
+  <meta name="description" content="Describe un campo de formulario (edad, correo, cédula, fecha, texto, lista) y obtén los casos de prueba mínimos con partición de equivalencia y análisis de valores límite (ISTQB). Copia el resultado como CSV o Gherkin.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bangers&family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F9F9F7'/%3E%3Cpath d='M3 18H29' stroke='%230A090A' stroke-width='3'/%3E%3Crect x='10' y='12' width='12' height='12' fill='%23438FB8' stroke='%230A090A' stroke-width='2'/%3E%3Ccircle cx='7' cy='18' r='3.5' fill='%23CB433E'/%3E%3Ccircle cx='25' cy='18' r='3.5' fill='%23CB433E'/%3E%3C/svg%3E">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <a class="saltar" href="#respuesta">Saltar al resultado</a>
+  <header class="cabecera">
+    <span class="kanji" aria-hidden="true">境界</span>
+    <div class="titulo">
+      <p class="antetitulo">Partición de equivalencia · valores límite · ISTQB</p>
+      <h1>¿Cuántas pruebas necesita este campo?</h1>
+    </div>
+    <nav class="nav">
+      <a class="boton-linea" href="proceso/">Cómo se hizo</a>
+      <button type="button" class="boton-linea" id="tema" aria-label="Cambiar tema">Tema: auto</button>
+    </nav>
+  </header>
+
+  <main class="tablero">
+    <section class="entrada vineta" aria-labelledby="entrada-t">
+      <h2 id="entrada-t" class="etiqueta">1 · Describe el campo</h2>
+      <label for="desc" class="visual-oculto">Descripción del campo de formulario</label>
+      <input id="desc" class="desc" type="text" autocomplete="off" spellcheck="false" value="edad entera entre 18 y 65, obligatoria" aria-describedby="ayuda-desc">
+      <p id="ayuda-desc" class="ayuda">Escribe como lo dirías: «cédula de 6 a 10 dígitos», «comentario, máximo 200 caracteres», «país: Colombia, Perú, Chile».</p>
+      <div class="ejemplos" role="group" aria-label="Campos de ejemplo">
+        <span class="etiqueta">Probar</span>
+        <button type="button" class="mini" data-desc="edad entera entre 18 y 65, obligatoria">Edad 18–65</button>
+        <button type="button" class="mini" data-desc="correo electrónico, obligatorio">Correo</button>
+        <button type="button" class="mini" data-desc="cédula colombiana de 6 a 10 dígitos, obligatoria">Cédula</button>
+        <button type="button" class="mini" data-desc="fecha de la cita entre 2026-12-01 y 2026-12-31, obligatoria">Fecha</button>
+        <button type="button" class="mini" data-desc="nombre de usuario, texto de 3 a 20 caracteres, obligatorio">Texto 3–20</button>
+        <button type="button" class="mini" data-desc="tipo de documento: CC, CE, TI, PA">Select</button>
+        <button type="button" class="mini" data-desc="edad entera entre 18 y 60, obligatoria" title="Ejemplo de partición de equivalencia del trabajo de clase">Caso de clase</button>
+      </div>
+
+      <fieldset class="entendi">
+        <legend class="etiqueta">Lo que entendí (puedes ajustarlo)</legend>
+        <div class="controles">
+          <label class="ctl"><span>Tipo</span>
+            <select id="c-tipo">
+              <option value="entero">Número entero</option>
+              <option value="texto">Texto (longitud)</option>
+              <option value="cedula">Cédula (dígitos)</option>
+              <option value="correo">Correo electrónico</option>
+              <option value="fecha">Fecha</option>
+              <option value="select">Lista (select)</option>
+            </select>
+          </label>
+          <label class="ctl ancho"><span>Nombre</span><input id="c-nombre" type="text" autocomplete="off"></label>
+          <label class="ctl" data-para="rango"><span id="c-min-t">Mínimo</span><input id="c-min" type="number" inputmode="numeric" step="1"></label>
+          <label class="ctl" data-para="rango"><span id="c-max-t">Máximo</span><input id="c-max" type="number" inputmode="numeric" step="1"></label>
+          <label class="ctl" data-para="fecha"><span>Desde</span><input id="c-desde" type="date"></label>
+          <label class="ctl" data-para="fecha"><span>Hasta</span><input id="c-hasta" type="date"></label>
+          <label class="ctl ancho" data-para="select"><span>Opciones (separadas por comas)</span><input id="c-opciones" type="text" autocomplete="off"></label>
+          <label class="check" data-para="select"><input id="c-distintas" type="checkbox" checked> Cada opción cambia el comportamiento</label>
+          <label class="check"><input id="c-oblig" type="checkbox" checked> Obligatorio</label>
+        </div>
+        <div class="bva" role="radiogroup" aria-label="Análisis de valores límite">
+          <span class="etiqueta">Valores límite</span>
+          <label><input type="radio" name="bva" value="2" checked> 2 valores</label>
+          <label><input type="radio" name="bva" value="3"> 3 valores</label>
+        </div>
+      </fieldset>
+    </section>
+
+    <section class="hud vineta" id="respuesta" aria-live="polite" aria-labelledby="hud-t">
+      <span class="onoma" aria-hidden="true">¡ZAS!</span>
+      <h2 id="hud-t" class="etiqueta">Necesitas</h2>
+      <p class="grande"><span id="total">–</span> <small id="total-u">pruebas</small></p>
+      <p class="error-def" id="error-def" hidden></p>
+      <ul class="desglose" id="desglose"></ul>
+      <div class="exhaustivo">
+        <p class="etiqueta">Frente a probarlo todo <span class="chip chip-calc">calculado aquí</span></p>
+        <div class="versus">
+          <div><span class="cifra" id="exh-n">–</span><small>entradas posibles</small></div>
+          <div><span class="cifra" id="exh-t">–</span><small>a 1.000 pruebas por segundo</small></div>
+        </div>
+        <p class="ayuda" id="exh-sup"></p>
+      </div>
+    </section>
+
+    <section class="diagrama vineta" aria-labelledby="diag-t">
+      <h2 id="diag-t">2 · Las clases</h2>
+      <p class="ayuda">Partición de equivalencia: entradas que el sistema debería tratar igual. Basta probar una de cada clase. Los límites, donde el comportamiento cambia, se prueban siempre.</p>
+      <div id="recta" class="recta"></div>
+      <div class="clases">
+        <div><h3 class="etiqueta t-valida">Válidas: se aceptan</h3><ul id="cl-validas" class="fichas"></ul></div>
+        <div><h3 class="etiqueta t-invalida">Inválidas: se rechazan</h3><ul id="cl-invalidas" class="fichas"></ul></div>
+      </div>
+    </section>
+
+    <section class="casos vineta" aria-labelledby="casos-t">
+      <div class="casos-cab">
+        <h2 id="casos-t">3 · Los casos</h2>
+        <div class="pestanas" role="tablist" aria-label="Formato">
+          <button type="button" role="tab" id="tab-tabla" aria-selected="true" aria-controls="vista-tabla">Tabla</button>
+          <button type="button" role="tab" id="tab-csv" aria-selected="false" aria-controls="vista-texto" tabindex="-1">CSV</button>
+          <button type="button" role="tab" id="tab-gherkin" aria-selected="false" aria-controls="vista-texto" tabindex="-1">Gherkin</button>
+        </div>
+        <label class="idioma" id="idioma-l" hidden>Idioma
+          <select id="idioma"><option value="es">Español</option><option value="en">English</option></select>
+        </label>
+        <button type="button" class="boton-tinta" id="copiar">Copiar CSV</button>
+        <span class="copiado" id="copiado" role="status"></span>
+      </div>
+      <div id="vista-tabla" role="tabpanel" aria-labelledby="tab-tabla" class="tabla-scroll">
+        <table class="tabla tabla-casos">
+          <caption id="cap-casos">Casos de prueba</caption>
+          <thead><tr><th scope="col">ID</th><th scope="col">Entrada</th><th scope="col">Esperado</th><th scope="col">Clase</th><th scope="col">Técnica</th><th scope="col">Por qué</th></tr></thead>
+          <tbody id="t-casos"></tbody>
+        </table>
+      </div>
+      <pre id="vista-texto" role="tabpanel" class="codigo" hidden tabindex="0"></pre>
+    </section>
+
+    <section class="decision vineta" aria-labelledby="dec-t">
+      <h2 id="dec-t">4 · Varios campos juntos: tabla de decisión</h2>
+      <p class="ayuda">Elige 2 o 3 campos de un mismo formulario. Condición: «¿el campo es válido?». Acción: registrar o mostrar el error.</p>
+      <div class="ejemplos" role="group" aria-label="Campos del formulario" id="dec-campos"></div>
+      <p class="dec-res" id="dec-res" aria-live="polite"></p>
+      <div class="dec-tablas">
+        <div class="tabla-scroll"><table class="tabla tabla-dec" id="dec-completa"></table></div>
+        <div class="tabla-scroll"><table class="tabla tabla-dec" id="dec-colapsada"></table></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>Todo se calcula en tu navegador. Las reglas de cada campo (rango, longitud, formato) son las que tú describes: la herramienta no sabe cuál es la regla correcta de tu negocio. Correo según el estándar HTML (WHATWG) y las longitudes de RFC 5321. Técnicas según el programa ISTQB CTFL v4.0.</p>
+    <p class="creditos"><a href="https://github.com/ale0009" target="_blank" rel="noopener">Mario Puerta «ale0009»</a> × <a href="https://www.linkedin.com/in/davidalexanderrinconcorredorkuronoma/" target="_blank" rel="noopener">David Rincón «Kuronoma»</a> <a href="#">Portafolio</a></p>
+  </footer>
+</body>
+</html>
