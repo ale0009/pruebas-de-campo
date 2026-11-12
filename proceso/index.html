@@ -209,26 +209,22 @@
       <div class="vineta errata">
         <h3>Cuadro comparativo de técnicas · fila «Tablas de decisión» (equipo de Mario)</h3>
         <ul>
-          <li>Objetivo: «validar que el programa funciona correctamente para <strong>todos los casos posibles</strong>». Contradice el principio de que las pruebas exhaustivas no son posibles. Lo correcto: cubrir todas las <strong>combinaciones de las condiciones</strong> que se modelan, no todas las entradas.</li>
-          <li>Ventaja: «permite encontrar errores de <strong>valores límite</strong>». Eso es del análisis de valores límite: la tabla de decisión no elige valores, combina condiciones.</li>
-          <li>Referencia de Myers: «2011, 2.ª ed.» con cuatro autores. La edición de 2011 es la <strong>3.ª</strong> (Myers, Sandler y Badgett); la 2.ª es de 2004. El enlace citado apunta, de hecho, a la 3.ª.</li>
-          <li>Referencia «Testing Computer Software, Google Books, 2023»: Google Books es la plataforma, no el autor, y 2023 es la fecha de consulta. Autores: Kaner, Falk y Nguyen; 2.ª edición, 1999.</li>
+          <li><strong>Objetivo.</strong> <b>El trabajo decía</b> que la tabla de decisión sirve para «validar que el programa funciona correctamente para <strong>todos los casos posibles</strong>». <b>Lo correcto:</b> eso contradice un principio de ISTQB, las pruebas exhaustivas son imposibles; la tabla cubre todas las <strong>combinaciones de las condiciones</strong> que se modelan, no todas las entradas. <b>La herramienta usa</b> la definición correcta: arma una regla por cada combinación de «¿el campo es válido?» (con 3 campos, 8 reglas) y luego la colapsa.</li>
+          <li><strong>Ventaja.</strong> <b>El trabajo decía</b> que la tabla de decisión «permite encontrar errores de <strong>valores límite</strong>». <b>Lo correcto:</b> esa es la ventaja del análisis de valores límite; la tabla de decisión no elige valores, combina condiciones. <b>La herramienta usa</b> cada técnica para lo suyo: los límites en los casos de cada campo y las combinaciones en la tabla de decisión.</li>
         </ul>
       </div>
       <div class="vineta errata">
         <h3>Cuadro comparativo · otras filas</h3>
         <ul>
-          <li>Valores límite: el ejemplo «un mínimo de 1 artículo y un <strong>máximo x</strong>» no se puede probar: sin un número no hay límite superior. Con, por ejemplo, 10, los casos son 0, 1, 10 y 11.</li>
-          <li>Partición de equivalencia: entre sus ventajas aparece «ayuda a identificar defectos en los valores límite», que es la ventaja del análisis de valores límite. Y el título dice «Participaciones de equivalencia» en lugar de «Particiones».</li>
+          <li><strong>Valores límite.</strong> <b>El trabajo decía</b> como ejemplo «un mínimo de 1 artículo y un <strong>máximo x</strong>». <b>Lo correcto:</b> sin un número no hay límite superior que probar; con un máximo de, por ejemplo, 10, los casos de 2 valores son 0, 1, 10 y 11. <b>La herramienta usa</b> un mínimo y un máximo numéricos para calcular los casos de cada rango.</li>
+          <li><strong>Partición de equivalencia.</strong> <b>El trabajo decía</b>, entre sus ventajas, que «ayuda a identificar defectos en los valores límite», y la tituló «Participaciones de equivalencia». <b>Lo correcto:</b> encontrar defectos en los límites es la ventaja del análisis de valores límite; la partición agrupa entradas que se comportan igual y prueba un valor de cada grupo. Y el nombre es «particiones». <b>La herramienta usa</b> la partición para elegir un representante por clase y deja los bordes al análisis de valores límite.</li>
           <li>El ejemplo de 18 a 60 años sí estaba bien planteado: dos mensajes distintos para menores y mayores confirman que son <strong>dos clases inválidas</strong> y no una.</li>
         </ul>
       </div>
       <div class="vineta errata">
         <h3>Póster «Principios esenciales»</h3>
         <ul>
-          <li>Enumera 8 principios; ISTQB define <strong>7</strong>. El octavo es una cita sobre el error humano, no un principio.</li>
-          <li>En el póster de prueba de flujo de datos, la sección de beneficios repite el texto de «pruebas tempranas» del otro póster.</li>
-          <li>Errata en el título: «Sotware».</li>
+          <li><strong>Principios.</strong> <b>El trabajo decía</b> que hay 8 principios de las pruebas. <b>Lo correcto:</b> ISTQB define <strong>7</strong>; el octavo del póster es una cita sobre el error humano, no un principio. <b>Esta página usa</b> la lista de 7 del programa ISTQB CTFL v4.0 y cita el segundo: las pruebas exhaustivas no son posibles.</li>
         </ul>
       </div>
     </section>
